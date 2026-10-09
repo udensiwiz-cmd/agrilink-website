@@ -4,131 +4,519 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>AgriLink Nigeria | Farm Marketplace</title>
+    <meta name="theme-color" content="#176b3a">
+
+    <title>AgriLink Nigeria | Agricultural Marketplace</title>
+
+    <meta name="description"
+          content="Buy and sell agricultural products across Nigeria with AgriLink Nigeria.">
 
     <style>
+        :root {
+            --green: #176b3a;
+            --dark-green: #104c2a;
+            --light-green: #e9f6ec;
+            --orange: #f4a62a;
+            --background: #f7faf7;
+            --text: #203127;
+            --muted: #68776d;
+            --white: #ffffff;
+        }
+
         * {
             box-sizing: border-box;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             margin: 0;
-            font-family: Arial, sans-serif;
-            background: #f4f8f3;
-            color: #263528;
+            font-family: Arial, Helvetica, sans-serif;
+            background: var(--background);
+            color: var(--text);
         }
 
-        header {
-            background: #146b35;
-            color: white;
-            padding: 24px 16px;
-            text-align: center;
-        }
-
-        header h1 {
-            margin: 0 0 8px;
-            font-size: 28px;
-        }
-
-        header p {
-            margin: 0;
-        }
-
-        .container {
-            max-width: 1100px;
-            margin: auto;
-            padding: 20px 16px;
-        }
-
-        .toolbar {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        input {
-            flex: 1;
-            min-width: 180px;
-            padding: 12px;
-            border: 1px solid #ccd5cc;
-            border-radius: 8px;
-            font-size: 16px;
+        button,
+        input,
+        select {
+            font: inherit;
         }
 
         button {
-            background: #146b35;
-            color: white;
-            border: none;
-            padding: 12px 18px;
-            border-radius: 8px;
-            font-size: 15px;
             cursor: pointer;
         }
 
-        button:disabled {
-            opacity: 0.6;
+        .topbar {
+            background: var(--dark-green);
+            color: white;
+            text-align: center;
+            padding: 9px 12px;
+            font-size: 13px;
         }
 
-        #status {
-            margin: 12px 0;
-            color: #526453;
+        .navbar {
+            background: white;
+            padding: 16px 5%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            border-bottom: 1px solid #e7eee8;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--green);
+            font-weight: bold;
+            font-size: 22px;
+        }
+
+        .brand-icon {
+            width: 44px;
+            height: 44px;
+            background: var(--light-green);
+            border-radius: 12px;
+            display: grid;
+            place-items: center;
+            font-size: 26px;
+        }
+
+        .brand small {
+            display: block;
+            color: var(--muted);
+            font-size: 11px;
+            font-weight: normal;
+            margin-top: 3px;
+        }
+
+        .nav-label {
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .hero {
+            background: linear-gradient(
+                120deg,
+                #104c2a,
+                #218349
+            );
+            color: white;
+            padding: 55px 6%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-inner {
+            max-width: 1200px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 35px;
+            align-items: center;
+        }
+
+        .hero-tag {
+            display: inline-block;
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.25);
+            border-radius: 30px;
+            padding: 9px 14px;
+            font-size: 13px;
+        }
+
+        .hero h1 {
+            font-size: clamp(32px, 5vw, 53px);
+            line-height: 1.13;
+            margin: 20px 0 15px;
+        }
+
+        .hero h1 span {
+            color: #ffce72;
+        }
+
+        .hero p {
+            line-height: 1.8;
+            color: #e5f4e9;
+            max-width: 540px;
+        }
+
+        .hero-button {
+            display: inline-block;
+            background: var(--orange);
+            color: #2e361f;
+            text-decoration: none;
+            padding: 14px 22px;
+            border-radius: 9px;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+
+        .hero-art {
+            background: rgba(255,255,255,0.09);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 28px;
+            min-height: 250px;
+            display: grid;
+            place-items: center;
+            font-size: clamp(90px, 15vw, 155px);
+        }
+
+        .benefits {
+            max-width: 1200px;
+            margin: -20px auto 0;
+            padding: 0 20px;
+            position: relative;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        .benefit {
+            background: white;
+            padding: 20px;
+            border-radius: 14px;
+            box-shadow: 0 5px 22px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .benefit-icon {
+            font-size: 28px;
+        }
+
+        .benefit strong {
+            display: block;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .benefit small {
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .main {
+            max-width: 1250px;
+            margin: auto;
+            padding: 48px 20px;
+        }
+
+        .section-heading {
+            display: flex;
+            align-items: end;
+            justify-content: space-between;
+            gap: 15px;
+            margin-bottom: 22px;
+        }
+
+        .section-heading h2 {
+            font-size: 29px;
+            margin: 0 0 8px;
+        }
+
+        .section-heading p {
+            margin: 0;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        .product-count {
+            color: var(--green);
+            background: var(--light-green);
+            padding: 9px 13px;
+            border-radius: 20px;
+            font-size: 13px;
+            white-space: nowrap;
+        }
+
+        .toolbar {
+            display: grid;
+            grid-template-columns: 1fr 220px auto;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .search-box,
+        .category-select {
+            width: 100%;
+            background: white;
+            border: 1px solid #dce5dd;
+            border-radius: 10px;
+            padding: 14px;
+            outline: none;
+        }
+
+        .search-box:focus,
+        .category-select:focus {
+            border-color: var(--green);
+        }
+
+        .refresh-button {
+            background: var(--green);
+            color: white;
+            border: none;
+            padding: 13px 17px;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+
+        .refresh-button:disabled {
+            opacity: 0.6;
+            cursor: wait;
+        }
+
+        .status {
+            padding: 12px 0;
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.6;
         }
 
         .products {
             display: grid;
-            grid-template-columns: repeat(
-                auto-fit,
-                minmax(230px, 1fr)
-            );
-            gap: 18px;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 20px;
         }
 
-        .card {
+        .product-card {
             background: white;
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
+            border: 1px solid #e9eee9;
+            border-radius: 15px;
+            overflow: hidden;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
 
-        .product-icon {
-            font-size: 42px;
-            margin-bottom: 12px;
+        .product-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
         }
 
-        .card h2 {
-            margin: 0 0 8px;
-            color: #146b35;
+        .product-image-wrap {
+            position: relative;
+            height: 185px;
+            background: #eaf3e9;
+            overflow: hidden;
         }
 
-        .price {
-            font-size: 22px;
+        .product-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .image-fallback {
+            width: 100%;
+            height: 100%;
+            display: grid;
+            place-items: center;
+            font-size: 75px;
+            background: linear-gradient(
+                135deg,
+                #e8f5e9,
+                #c8e6c9
+            );
+        }
+
+        .available-badge {
+            position: absolute;
+            left: 12px;
+            top: 12px;
+            background: white;
+            color: var(--green);
+            border-radius: 20px;
+            padding: 7px 10px;
+            font-size: 11px;
             font-weight: bold;
-            margin: 12px 0;
         }
 
-        .detail {
-            margin: 8px 0;
+        .product-info {
+            padding: 16px;
+        }
+
+        .category-label {
+            color: var(--green);
+            background: var(--light-green);
+            display: inline-block;
+            padding: 5px 8px;
+            border-radius: 6px;
+            font-size: 11px;
+            margin-bottom: 10px;
+        }
+
+        .product-info h3 {
+            font-size: 18px;
+            margin: 0 0 9px;
             overflow-wrap: anywhere;
         }
 
-        footer {
-            margin-top: 35px;
-            padding: 20px;
-            text-align: center;
-            background: #e4eee3;
-            font-size: 14px;
+        .product-description {
+            font-size: 13px;
+            color: var(--muted);
+            line-height: 1.5;
+            min-height: 38px;
+            margin: 0 0 12px;
         }
 
-        @media (max-width: 480px) {
-            header h1 {
-                font-size: 23px;
+        .product-price {
+            color: var(--green);
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .product-detail {
+            font-size: 12px;
+            color: var(--muted);
+            margin: 8px 0;
+            overflow-wrap: anywhere;
+            line-height: 1.5;
+        }
+
+        .seller-location {
+            border-top: 1px solid #edf1ed;
+            padding-top: 11px;
+            margin-top: 12px;
+        }
+
+        .empty-state {
+            grid-column: 1 / -1;
+            background: white;
+            border: 1px dashed #ccd9cd;
+            border-radius: 15px;
+            padding: 40px 20px;
+            text-align: center;
+            color: var(--muted);
+        }
+
+        .empty-state .big-icon {
+            font-size: 50px;
+            margin-bottom: 10px;
+        }
+
+        .empty-state h3 {
+            color: var(--text);
+        }
+
+        .info-banner {
+            background: #fff5df;
+            border: 1px solid #f5e1ae;
+            border-radius: 14px;
+            padding: 22px;
+            margin-top: 35px;
+            line-height: 1.7;
+        }
+
+        .info-banner strong {
+            color: #79500b;
+        }
+
+        footer {
+            background: #103e24;
+            color: white;
+            padding: 35px 20px;
+            text-align: center;
+        }
+
+        footer .footer-brand {
+            font-size: 23px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        footer p {
+            color: #d7e7dc;
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        .footer-credit {
+            border-top: 1px solid rgba(255,255,255,0.15);
+            margin-top: 22px;
+            padding-top: 18px;
+        }
+
+        @media (max-width: 1000px) {
+            .products {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
             }
 
-            .toolbar button {
-                width: 100%;
+            .hero-inner {
+                grid-template-columns: 1fr 0.7fr;
+            }
+        }
+
+        @media (max-width: 700px) {
+            .navbar {
+                padding: 13px 16px;
+            }
+
+            .nav-label {
+                display: none;
+            }
+
+            .hero {
+                padding: 40px 20px;
+            }
+
+            .hero-inner {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-art {
+                min-height: 140px;
+                font-size: 85px;
+            }
+
+            .benefits {
+                grid-template-columns: 1fr;
+                margin-top: 15px;
+            }
+
+            .main {
+                padding: 38px 14px;
+            }
+
+            .products {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 12px;
+            }
+
+            .product-image-wrap {
+                height: 145px;
+            }
+
+            .product-info {
+                padding: 12px;
+            }
+
+            .product-price {
+                font-size: 19px;
+            }
+
+            .toolbar {
+                grid-template-columns: 1fr;
+            }
+
+            .section-heading {
+                align-items: start;
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .products {
+                grid-template-columns: 1fr;
+            }
+
+            .product-image-wrap {
+                height: 200px;
             }
         }
     </style>
@@ -136,41 +524,153 @@
 
 <body>
 
-<header>
-    <h1>🌾 AgriLink Nigeria</h1>
-    <p>Connecting Farmers, Buyers and Agricultural Suppliers</p>
-</header>
+<div class="topbar">
+    🌱 Connecting Nigerian farmers directly with buyers
+</div>
 
-<main class="container">
+<nav class="navbar">
+    <a class="brand" href="#">
+        <span class="brand-icon">🌾</span>
+        <span>
+            AgriLink Nigeria
+            <small>Farm products marketplace</small>
+        </span>
+    </a>
 
-    <h2>Available Farm Products</h2>
+    <span class="nav-label">Fresh Produce • Fair Prices</span>
+</nav>
+
+<section class="hero">
+    <div class="hero-inner">
+
+        <div>
+            <span class="hero-tag">🇳🇬 Built for Nigerian Agriculture</span>
+
+            <h1>
+                From Nigerian Farms<br>
+                <span>To Your Market</span>
+            </h1>
+
+            <p>
+                Discover agricultural products, explore prices
+                and find available produce from sellers across
+                Nigeria.
+            </p>
+
+            <a class="hero-button" href="#marketplace">
+                Explore Products ↓
+            </a>
+        </div>
+
+        <div class="hero-art" aria-label="Agriculture illustration">
+            🌾 🥬 🌽
+        </div>
+
+    </div>
+</section>
+
+<section class="benefits">
+
+    <div class="benefit">
+        <span class="benefit-icon">🌱</span>
+        <div>
+            <strong>Farm Products</strong>
+            <small>Discover available produce</small>
+        </div>
+    </div>
+
+    <div class="benefit">
+        <span class="benefit-icon">💰</span>
+        <div>
+            <strong>Clear Prices</strong>
+            <small>View listed product prices</small>
+        </div>
+    </div>
+
+    <div class="benefit">
+        <span class="benefit-icon">📍</span>
+        <div>
+            <strong>Seller Locations</strong>
+            <small>Find where products are listed</small>
+        </div>
+    </div>
+
+</section>
+
+<main class="main" id="marketplace">
+
+    <div class="section-heading">
+        <div>
+            <h2>Explore Farm Products</h2>
+            <p>Find produce listed on the AgriLink marketplace.</p>
+        </div>
+
+        <span class="product-count" id="productCount">
+            Loading...
+        </span>
+    </div>
 
     <div class="toolbar">
+
         <input
-            type="search"
+            class="search-box"
             id="search"
-            placeholder="Search products..."
+            type="search"
+            placeholder="🔎 Search yam, rice, maize..."
             aria-label="Search products"
         >
 
-        <button id="refreshButton" onclick="loadProducts()">
-            Refresh Products
+        <select
+            class="category-select"
+            id="categoryFilter"
+            aria-label="Filter by category"
+        >
+            <option value="all">All categories</option>
+        </select>
+
+        <button
+            class="refresh-button"
+            id="refreshButton"
+            type="button"
+        >
+            ↻ Refresh
         </button>
+
     </div>
 
-    <p id="status" role="status">Loading products...</p>
+    <div class="status" id="status" role="status" aria-live="polite">
+        Connecting to AgriLink...
+    </div>
 
     <section
-        id="products"
         class="products"
-        aria-label="Available products"
+        id="products"
+        aria-label="Available farm products"
     ></section>
+
+    <div class="info-banner">
+        <strong>🌾 Supporting Nigerian Agriculture</strong><br>
+        AgriLink Nigeria helps buyers discover agricultural
+        products listed by sellers. Confirm product quality,
+        quantities, prices and delivery arrangements with the
+        seller before completing a purchase.
+    </div>
 
 </main>
 
 <footer>
-    <p>AgriLink Nigeria</p>
-    <p>Developed by Kinetic Media Koncept</p>
+
+    <div class="footer-brand">🌾 AgriLink Nigeria</div>
+
+    <p>
+        Connecting farmers, buyers and agricultural suppliers.
+    </p>
+
+    <div class="footer-credit">
+        <p>Developed by Kinetic Media Koncept</p>
+        <p>© <span id="year"></span> AgriLink Nigeria</p>
+    </div>
+
 </footer>
 
 <script>
@@ -183,13 +683,113 @@
     const statusElement =
         document.getElementById("status");
 
+    const countElement =
+        document.getElementById("productCount");
+
     const refreshButton =
         document.getElementById("refreshButton");
 
     const searchInput =
         document.getElementById("search");
 
+    const categoryFilter =
+        document.getElementById("categoryFilter");
+
     let allProducts = [];
+
+    document.getElementById("year").textContent =
+        new Date().getFullYear();
+
+    function normalize(value) {
+        return String(value || "").trim().toLowerCase();
+    }
+
+    function escapeText(value) {
+        return String(value ?? "");
+    }
+
+    function getProductIcon(product) {
+        const text = normalize(
+            product.name + " " + product.category
+        );
+
+        if (text.includes("yam")) return "🍠";
+        if (text.includes("rice")) return "🌾";
+        if (text.includes("maize") || text.includes("corn")) {
+            return "🌽";
+        }
+        if (text.includes("cassava")) return "🥔";
+        if (text.includes("tomato")) return "🍅";
+        if (text.includes("pepper")) return "🌶️";
+        if (text.includes("onion")) return "🧅";
+        if (text.includes("plantain") || text.includes("banana")) {
+            return "🍌";
+        }
+        if (text.includes("potato")) return "🥔";
+        if (text.includes("vegetable") || text.includes("leaf")) {
+            return "🥬";
+        }
+        if (text.includes("bean")) return "🫘";
+        if (text.includes("fruit") || text.includes("orange")) {
+            return "🍊";
+        }
+        if (text.includes("chicken") || text.includes("poultry")) {
+            return "🐓";
+        }
+        if (text.includes("fish")) return "🐟";
+
+        return "🌱";
+    }
+
+    /*
+     * These are illustrative photographs.
+     * They are not verified photographs of a particular seller's goods.
+     * If a photograph fails to load, a product-specific icon is shown.
+     */
+    function getProductImage(product) {
+        const text = normalize(
+            product.name + " " + product.category
+        );
+
+        if (text.includes("rice")) {
+            return "https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&w=700&q=80";
+        }
+
+        if (text.includes("tomato")) {
+            return "https://images.unsplash.com/photo-1546094096-0df4bcaaa337?auto=format&fit=crop&w=700&q=80";
+        }
+
+        if (text.includes("vegetable") || text.includes("leaf")) {
+            return "https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=700&q=80";
+        }
+
+        if (text.includes("corn") || text.includes("maize")) {
+            return "https://images.unsplash.com/photo-1551754655-cd27e38d2076?auto=format&fit=crop&w=700&q=80";
+        }
+
+        if (text.includes("yam") || text.includes("cassava") ||
+            text.includes("potato") || text.includes("tuber")) {
+            return "https://images.unsplash.com/photo-1518977676601-b53f82aba655?auto=format&fit=crop&w=700&q=80";
+        }
+
+        if (text.includes("pepper")) {
+            return "https://images.unsplash.com/photo-1588252303782-cb80119abd6d?auto=format&fit=crop&w=700&q=80";
+        }
+
+        if (text.includes("onion")) {
+            return "https://images.unsplash.com/photo-1508747703725-719777637510?auto=format&fit=crop&w=700&q=80";
+        }
+
+        if (text.includes("banana") || text.includes("plantain")) {
+            return "https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?auto=format&fit=crop&w=700&q=80";
+        }
+
+        if (text.includes("bean")) {
+            return "https://images.unsplash.com/photo-1515543904379-3d757afe72e4?auto=format&fit=crop&w=700&q=80";
+        }
+
+        return "";
+    }
 
     function formatPrice(price) {
         const amount = Number(price);
@@ -205,77 +805,233 @@
         }).format(amount);
     }
 
+    function makeElement(tag, className, text) {
+        const element = document.createElement(tag);
+
+        if (className) {
+            element.className = className;
+        }
+
+        if (text !== undefined) {
+            element.textContent = escapeText(text);
+        }
+
+        return element;
+    }
+
     function createProductCard(product) {
-        const card = document.createElement("article");
-        card.className = "card";
+        const card = makeElement("article", "product-card");
 
-        const icon = document.createElement("div");
-        icon.className = "product-icon";
-        icon.textContent = "🌱";
+        const imageWrap =
+            makeElement("div", "product-image-wrap");
 
-        const name = document.createElement("h2");
-        name.textContent = product.name || "Unnamed product";
+        const fallback =
+            makeElement(
+                "div",
+                "image-fallback",
+                getProductIcon(product)
+            );
 
-        const category = document.createElement("p");
-        category.className = "detail";
-        category.textContent =
-            "Category: " + (product.category || "General");
+        const imageUrl = getProductImage(product);
 
-        const price = document.createElement("p");
-        price.className = "price";
-        price.textContent = formatPrice(product.price);
+        if (imageUrl) {
+            const image = makeElement("img", "product-image");
 
-        const quantity = document.createElement("p");
-        quantity.className = "detail";
-        quantity.textContent =
-            "Available quantity: " +
-            (product.quantity ?? "Not specified");
+            image.alt = "Illustrative image for " +
+                escapeText(product.name || "farm product");
 
-        const location = document.createElement("p");
-        location.className = "detail";
-        location.textContent =
-            "📍 " + (product.location || "Location not provided");
+            image.loading = "lazy";
 
-        const description = document.createElement("p");
-        description.className = "detail";
-        description.textContent =
-            product.description || "Contact the seller for details.";
+            image.onerror = function() {
+                image.replaceWith(fallback);
+            };
 
-        card.append(
-            icon,
-            name,
+            image.src = imageUrl;
+
+            imageWrap.appendChild(image);
+        } else {
+            imageWrap.appendChild(fallback);
+        }
+
+        const badge = makeElement(
+            "span",
+            "available-badge",
+            "✓ Available"
+        );
+
+        imageWrap.appendChild(badge);
+
+        const info = makeElement("div", "product-info");
+
+        const category = makeElement(
+            "span",
+            "category-label",
+            product.category || "Farm product"
+        );
+
+        const name = makeElement(
+            "h3",
+            "",
+            product.name || "Unnamed product"
+        );
+
+        const description = makeElement(
+            "p",
+            "product-description",
+            product.description ||
+                "Contact the seller for more information."
+        );
+
+        const price = makeElement(
+            "div",
+            "product-price",
+            formatPrice(product.price)
+        );
+
+        const quantity = makeElement(
+            "p",
+            "product-detail",
+            "📦 Quantity: " +
+                (product.quantity ?? "Not specified")
+        );
+
+        const location = makeElement(
+            "p",
+            "product-detail seller-location",
+            "📍 " +
+                (product.location || "Location not provided")
+        );
+
+        info.append(
             category,
+            name,
+            description,
             price,
             quantity,
-            location,
-            description
+            location
         );
+
+        card.append(imageWrap, info);
 
         return card;
     }
 
-    function renderProducts(products) {
+    function updateCategoryOptions() {
+        const currentValue = categoryFilter.value;
+
+        const categories = [
+            ...new Set(
+                allProducts
+                    .map(function(product) {
+                        return String(product.category || "").trim();
+                    })
+                    .filter(Boolean)
+            )
+        ].sort(function(a, b) {
+            return a.localeCompare(b);
+        });
+
+        categoryFilter.replaceChildren();
+
+        const allOption = makeElement(
+            "option",
+            "",
+            "All categories"
+        );
+
+        allOption.value = "all";
+        categoryFilter.appendChild(allOption);
+
+        categories.forEach(function(category) {
+            const option = makeElement("option", "", category);
+            option.value = category;
+            categoryFilter.appendChild(option);
+        });
+
+        if (
+            currentValue === "all" ||
+            categories.includes(currentValue)
+        ) {
+            categoryFilter.value = currentValue;
+        } else {
+            categoryFilter.value = "all";
+        }
+    }
+
+    function renderProducts() {
         productsContainer.replaceChildren();
 
-        if (products.length === 0) {
+        const query = normalize(searchInput.value);
+        const selectedCategory = categoryFilter.value;
+
+        const filteredProducts = allProducts.filter(
+            function(product) {
+                const searchableText = normalize([
+                    product.name,
+                    product.category,
+                    product.description,
+                    product.location
+                ].join(" "));
+
+                const matchesSearch =
+                    searchableText.includes(query);
+
+                const matchesCategory =
+                    selectedCategory === "all" ||
+                    product.category === selectedCategory;
+
+                return matchesSearch && matchesCategory;
+            }
+        );
+
+        countElement.textContent =
+            allProducts.length + " product(s)";
+
+        if (filteredProducts.length === 0) {
+            const empty = makeElement("div", "empty-state");
+
+            empty.appendChild(
+                makeElement("div", "big-icon", "🌱")
+            );
+
+            empty.appendChild(
+                makeElement("h3", "", "No products found")
+            );
+
+            empty.appendChild(
+                makeElement(
+                    "p",
+                    "",
+                    allProducts.length === 0
+                        ? "There are currently no available products."
+                        : "Try another search or choose a different category."
+                )
+            );
+
+            productsContainer.appendChild(empty);
+
             statusElement.textContent =
-                "No matching products found.";
+                "No matching products to display.";
+
             return;
         }
 
-        products.forEach(function(product) {
+        filteredProducts.forEach(function(product) {
             productsContainer.appendChild(
                 createProductCard(product)
             );
         });
 
         statusElement.textContent =
-            products.length + " product(s) displayed.";
+            "Showing " + filteredProducts.length +
+            " product(s) from AgriLink.";
     }
 
     async function loadProducts() {
         refreshButton.disabled = true;
-        statusElement.textContent = "Loading products...";
+
+        statusElement.textContent =
+            "Loading products from AgriLink...";
 
         try {
             const response = await fetch(API_URL, {
@@ -294,51 +1050,45 @@
 
             const result = await response.json();
 
-            if (!result.success || !Array.isArray(result.data)) {
-                throw new Error("Unexpected product data format.");
+            if (
+                !result.success ||
+                !Array.isArray(result.data)
+            ) {
+                throw new Error(
+                    "The server returned an unexpected response."
+                );
             }
 
             allProducts = result.data.filter(function(product) {
                 return Number(product.quantity) > 0;
             });
 
-            renderProducts(allProducts);
+            updateCategoryOptions();
+            renderProducts();
 
         } catch (error) {
-            console.error("Product loading error:", error);
+            console.error("AgriLink product loading error:", error);
 
             productsContainer.replaceChildren();
 
+            countElement.textContent = "Unavailable";
+
             statusElement.textContent =
-                "Unable to load products. Please check your " +
-                "internet connection and try again. If the problem " +
-                "continues, the backend may need a CORS configuration.";
+                "We could not load products. Check your " +
+                "internet connection and try refreshing. " +
+                "If the problem continues, the backend connection " +
+                "or CORS settings may need checking.";
 
         } finally {
             refreshButton.disabled = false;
         }
     }
 
-    searchInput.addEventListener("input", function() {
-        const query = searchInput.value
-            .trim()
-            .toLowerCase();
+    searchInput.addEventListener("input", renderProducts);
 
-        const filteredProducts = allProducts.filter(function(product) {
-            return [
-                product.name,
-                product.category,
-                product.description,
-                product.location
-            ].some(function(value) {
-                return String(value || "")
-                    .toLowerCase()
-                    .includes(query);
-            });
-        });
+    categoryFilter.addEventListener("change", renderProducts);
 
-        renderProducts(filteredProducts);
-    });
+    refreshButton.addEventListener("click", loadProducts);
 
     loadProducts();
 </script>
