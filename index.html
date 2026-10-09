@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AgriLink Nigeria | Farm Marketplace</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f8f3;
+            color: #263528;
+        }
+
+        header {
+            background: #146b35;
+            color: white;
+            padding: 24px 16px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0 0 8px;
+            font-size: 28px;
+        }
+
+        header p {
+            margin: 0;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            padding: 20px 16px;
+        }
+
+        .toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        input {
+            flex: 1;
+            min-width: 180px;
+            padding: 12px;
+            border: 1px solid #ccd5cc;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        button {
+            background: #146b35;
+            color: white;
+            border: none;
+            padding: 12px 18px;
+            border-radius: 8px;
+            font-size: 15px;
+            cursor: pointer;
+        }
+
+        button:disabled {
+            opacity: 0.6;
+        }
+
+        #status {
+            margin: 12px 0;
+            color: #526453;
+        }
+
+        .products {
+            display: grid;
+            grid-template-columns: repeat(
+                auto-fit,
+                minmax(230px, 1fr)
+            );
+            gap: 18px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
+        }
+
+        .product-icon {
+            font-size: 42px;
+            margin-bottom: 12px;
+        }
+
+        .card h2 {
+            margin: 0 0 8px;
+            color: #146b35;
+        }
+
+        .price {
+            font-size: 22px;
+            font-weight: bold;
+            margin: 12px 0;
+        }
+
+        .detail {
+            margin: 8px 0;
+            overflow-wrap: anywhere;
+        }
+
+        footer {
+            margin-top: 35px;
+            padding: 20px;
+            text-align: center;
+            background: #e4eee3;
+            font-size: 14px;
+        }
+
+        @media (max-width: 480px) {
+            header h1 {
+                font-size: 23px;
+            }
+
+            .toolbar button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>🌾 AgriLink Nigeria</h1>
+    <p>Connecting Farmers, Buyers and Agricultural Suppliers</p>
+</header>
+
+<main class="container">
+
+    <h2>Available Farm Products</h2>
+
+    <div class="toolbar">
+        <input
+            type="search"
+            id="search"
+            placeholder="Search products..."
+            aria-label="Search products"
+        >
+
+        <button id="refreshButton" onclick="loadProducts()">
+            Refresh Products
+        </button>
+    </div>
+
+    <p id="status" role="status">Loading products...</p>
+
+    <section
+        id="products"
+        class="products"
+        aria-label="Available products"
+    ></section>
+
+</main>
+
+<footer>
+    <p>AgriLink Nigeria</p>
+    <p>Developed by Kinetic Media Koncept</p>
+</footer>
+
+<script>
+    const API_URL =
+        "https://agrilink-backend-fbps.onrender.com/api/products";
+
+    const productsContainer =
+        document.getElementById("products");
+
+    const statusElement =
+        document.getElementById("status");
+
+    const refreshButton =
+        document.getElementById("refreshButton");
+
+    const searchInput =
+        document.getElementById("search");
+
+    let allProducts = [];
+
+    function formatPrice(price) {
+        const amount = Number(price);
+
+        if (!Number.isFinite(amount)) {
+            return "Price unavailable";
+        }
+
+        return new Intl.NumberFormat("en-NG", {
+            style: "currency",
+            currency: "NGN",
+            maximumFractionDigits: 2
+        }).format(amount);
+    }
+
+    function createProductCard(product) {
+        const card = document.createElement("article");
+        card.className = "card";
+
+        const icon = document.createElement("div");
+        icon.className = "product-icon";
+        icon.textContent = "🌱";
+
+        const name = document.createElement("h2");
+        name.textContent = product.name || "Unnamed product";
+
+        const category = document.createElement("p");
+        category.className = "detail";
+        category.textContent =
+            "Category: " + (product.category || "General");
+
+        const price = document.createElement("p");
+        price.className = "price";
+        price.textContent = formatPrice(product.price);
+
+        const quantity = document.createElement("p");
+        quantity.className = "detail";
+        quantity.textContent =
+            "Available quantity: " +
+            (product.quantity ?? "Not specified");
+
+        const location = document.createElement("p");
+        location.className = "detail";
+        location.textContent =
+            "📍 " + (product.location || "Location not provided");
+
+        const description = document.createElement("p");
+        description.className = "detail";
+        description.textContent =
+            product.description || "Contact the seller for details.";
+
+        card.append(
+            icon,
+            name,
+            category,
+            price,
+            quantity,
+            location,
+            description
+        );
+
+        return card;
+    }
+
+    function renderProducts(products) {
+        productsContainer.replaceChildren();
+
+        if (products.length === 0) {
+            statusElement.textContent =
+                "No matching products found.";
+            return;
+        }
+
+        products.forEach(function(product) {
+            productsContainer.appendChild(
+                createProductCard(product)
+            );
+        });
+
+        statusElement.textContent =
+            products.length + " product(s) displayed.";
+    }
+
+    async function loadProducts() {
+        refreshButton.disabled = true;
+        statusElement.textContent = "Loading products...";
+
+        try {
+            const response = await fetch(API_URL, {
+                method: "GET",
+                headers: {
+                    "Accept": "application/json"
+                },
+                cache: "no-store"
+            });
+
+            if (!response.ok) {
+                throw new Error(
+                    "Server returned HTTP " + response.status
+                );
+            }
+
+            const result = await response.json();
+
+            if (!result.success || !Array.isArray(result.data)) {
+                throw new Error("Unexpected product data format.");
+            }
+
+            allProducts = result.data.filter(function(product) {
+                return Number(product.quantity) > 0;
+            });
+
+            renderProducts(allProducts);
+
+        } catch (error) {
+            console.error("Product loading error:", error);
+
+            productsContainer.replaceChildren();
+
+            statusElement.textContent =
+                "Unable to load products. Please check your " +
+                "internet connection and try again. If the problem " +
+                "continues, the backend may need a CORS configuration.";
+
+        } finally {
+            refreshButton.disabled = false;
+        }
+    }
+
+    searchInput.addEventListener("input", function() {
+        const query = searchInput.value
+            .trim()
+            .toLowerCase();
+
+        const filteredProducts = allProducts.filter(function(product) {
+            return [
+                product.name,
+                product.category,
+                product.description,
+                product.location
+            ].some(function(value) {
+                return String(value || "")
+                    .toLowerCase()
+                    .includes(query);
+            });
+        });
+
+        renderProducts(filteredProducts);
+    });
+
+    loadProducts();
+</script>
+
+</body>
+</html>
